@@ -4,7 +4,7 @@ const countriesContainer = document.querySelector('.countries');
 const countriesArr = [];
 let covidArr = [];
 let obj = {};
-
+let ctx;
 async function fetchURL(url) {
 	const response = await fetch(url);
 	return response.json();
@@ -40,10 +40,11 @@ function setCountriesToDOM(countriesArr) {
 	countriesContainer.innerHTML = '';
 	countriesArr.forEach(async (country) => {
 		const countryName = document.createElement('span');
-		countryName.textContent += country.name.common;
-		countryName.classList.add('space');
+		countryName.textContent = country.name.common;
+		countryName.classList.add('span-space');
 		countriesContainer.appendChild(countryName);
 	});
+	setSpanListener();
 }
 
 async function getData(regionFromListener) {
@@ -52,9 +53,7 @@ async function getData(regionFromListener) {
 
 	let countriesArr = [];
 	let countriesByCode = [];
-	// if (regionFromListener === 'World') {
-	// 	regionFromListener = '/';
-	// }
+
 	//get all countries of selected region
 	countries.forEach(async (country) => {
 		if (country.region === regionFromListener) {
@@ -73,7 +72,7 @@ async function getData(regionFromListener) {
 	);
 	console.log(filtered);
 
-	//if all countries
+	//if world selected get all countries
 	if (regionFromListener === 'World') {
 		filtered = covids.data;
 		setCountriesToDOM(countries);
@@ -100,13 +99,38 @@ regionContainer.forEach((el) => {
 	el.addEventListener('click', ButtonRegionSelected);
 });
 
-// selecting a case button
 const casesContainer = document.querySelectorAll('.container-cases button');
-// this forEach will attach event listeners to all child-nodes buttons NodeList
 casesContainer.forEach((el) => {
 	el.addEventListener('click', ButtonCasesSelected);
 });
 
+// selecting a country name text
+function setSpanListener() {
+	const countriesContainerSpan = document.querySelectorAll('.countries span');
+	countriesContainerSpan.forEach((el) => {
+		el.addEventListener('click', ShowCountryCovidStats);
+	});
+}
+function ShowCountryCovidStats() {
+	ctx.style.display = 'none';
+	// ctx.classList.add(details);
+
+	let canvasContainer = document.querySelector('.canvas-container');
+	for (let i = 0; i < 6; i++) {
+		const name = document.createElement('p');
+		const publicRepos = document.createElement('p');
+		const card = document.createElement('div');
+
+		name.textContent = 'user.name';
+		publicRepos.textContent = 'user.public_repos';
+
+		card.appendChild(name);
+		card.appendChild(publicRepos);
+		card.classList.add('space');
+		card.classList.add('card');
+		canvasContainer.appendChild(card);
+	}
+}
 // ----------------graph----------------
 let myChart;
 async function draw(region) {
@@ -120,7 +144,7 @@ async function draw(region) {
 	const xLabels = Object.entries(data).map((currentItem) => {
 		return currentItem[1].name;
 	});
-	let ctx = document.querySelector('#myChart');
+	ctx = document.querySelector('#myChart');
 	myChart = new Chart(ctx, {
 		type: 'line',
 		data: {
@@ -206,7 +230,7 @@ async function UpdateChartData(chart, selected, e) {
 
 		// insert x and y axis data into graph
 		removeData(chart);
-		chart.data.datasets[0].label = `Covid 19 in confirmed`;
+		chart.data.datasets[0].label = `Covid 19 confirmed`;
 		chart.data.datasets[0].data = yLabels;
 		chart.data.labels = xLabels;
 		chart.update();
@@ -216,7 +240,7 @@ async function UpdateChartData(chart, selected, e) {
 		const yLabels = Object.entries(data).map((elY) => {
 			return elY[1][cases];
 		});
-		chart.data.datasets[0].label = `Covid 19 in ${cases}`;
+		chart.data.datasets[0].label = `Covid 19 ${cases}`;
 		chart.data.datasets[0].data = yLabels;
 		chart.update();
 	}

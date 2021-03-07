@@ -16,6 +16,16 @@ body {
 	margin: 20px;
 	border: 1px solid #fff;
 }
+.span-space {
+	margin: 5px;
+	padding: 5px;
+}
+.hidden {
+	display: none;
+}
+.countries span:hover {
+	cursor: pointer;
+}
 .container-cases {
 	margin-top: 100px;
 }
@@ -30,4 +40,16 @@ body {
 	flex-direction: row;
 	flex-wrap: wrap;
 	margin: 10px;
+}
+.canvas-container {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	/* width: 75vw; */
+	border: 1px solid #fff;
+}
+.card {
+	height: 10vw;
+	border: 1px solid #fff;
 }
