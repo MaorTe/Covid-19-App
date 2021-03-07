@@ -198,6 +198,7 @@ async function draw(region) {
 			],
 		},
 		options: {
+			maintainAspectRatio: false,
 			legend: {
 				labels: {
 					fontColor: '#fff',
