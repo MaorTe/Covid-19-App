@@ -126,7 +126,7 @@ function ShowCountryCovidStats(e) {
 	canvasContainer.innerHTML = '';
 	for (let i = 0; i < 6; i++) {
 		const title = document.createElement('h2');
-		const value = document.createElement('h2');
+		const value = document.createElement('h3');
 		const card = document.createElement('div');
 
 		title.textContent = Object.keys(arr[i])[0];

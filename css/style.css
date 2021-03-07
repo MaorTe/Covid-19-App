@@ -14,7 +14,8 @@ body {
 }
 .countries {
 	margin: 20px;
-	border: 1px solid #fff;
+	border: 1px solid #81a1c1;
+	border-radius: 7px;
 }
 .span-space {
 	margin: 5px;
@@ -46,10 +47,20 @@ body {
 	justify-content: center;
 	align-items: flex-start;
 	flex-wrap: wrap;
-	/* width: 75vw; */
-	/* border: 1px solid #fff; */
+}
+.canvas-container .card {
+	text-align: center;
 }
 .card {
+	margin-top: 25px;
 	height: 10vw;
-	border: 1px solid #fff;
+	border: 1px solid #ffffff85;
+}
+.btn-cases,
+.btn-regions {
+	border-radius: 7px;
+}
+.btn-cases:hover,
+.btn-regions:hover {
+	background: #cdd4e0;
 }
