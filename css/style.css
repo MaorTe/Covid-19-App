@@ -67,7 +67,3 @@ body {
 .btn-regions:hover {
 	background: #cdd4e0;
 }
-
-canvas {
-	width: 85vw;
-}

@@ -139,8 +139,15 @@ function ShowCountryCovidStats(e) {
 		canvasContainer.appendChild(card);
 	}
 }
-
 // ----------------graph----------------
+colors = [
+	'rgba(255, 99, 132, 1)',
+	'rgba(54, 162, 235, 1)',
+	'rgba(255, 206, 86, 1)',
+	'rgba(75, 192, 192, 1)',
+	'rgba(153, 102, 255, 1)',
+	'rgba(255, 159, 64, 1)',
+];
 let myChart;
 async function draw(region) {
 	const data = await getData(region).catch((err) => {
@@ -161,8 +168,6 @@ async function draw(region) {
 			datasets: [
 				{
 					label: `Covid 19 confirmed`,
-					// backgroundColor: '#1d2d506e',
-					// borderColor: '#133b5c',
 					borderWidth: '1',
 					data: yLabels,
 					backgroundColor: [
@@ -182,13 +187,19 @@ async function draw(region) {
 						'rgba(255, 159, 64, 1)',
 					],
 					borderWidth: 1,
+
+					pointBorderColor: (() => {
+						let bgcolors = [];
+						for (let i = 0; i < 1000; ++i)
+							bgcolors.push(colors[i % colors.length]);
+						return bgcolors;
+					})(),
 				},
 			],
 		},
 		options: {
 			legend: {
 				labels: {
-					// This more specific font property overrides the global property
 					fontColor: '#fff',
 				},
 			},
