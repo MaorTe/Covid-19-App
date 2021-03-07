@@ -28,7 +28,7 @@ body {
 	cursor: pointer;
 }
 .container-cases {
-	margin-top: 100px;
+	margin-top: 35px;
 }
 .space {
 	margin: 2px;
@@ -45,11 +45,14 @@ body {
 .canvas-container {
 	display: flex;
 	justify-content: center;
-	align-items: flex-start;
+	align-items: center;
 	flex-wrap: wrap;
+	max-width: 95vw;
 }
 .canvas-container .card {
 	text-align: center;
+	margin: 10px;
+	border-radius: 5px;
 }
 .card {
 	margin-top: 25px;
@@ -63,4 +66,8 @@ body {
 .btn-cases:hover,
 .btn-regions:hover {
 	background: #cdd4e0;
+}
+
+canvas {
+	width: 85vw;
 }
