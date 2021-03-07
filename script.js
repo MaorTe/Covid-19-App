@@ -13,7 +13,7 @@ async function fetchURL(url) {
 function getAllCountries() {
 	// const url1 = `https://cors-anywere-pini85.herokuapp.com/restcountries.herokuapp.com/api/v1/`;
 	const url = `https://api.codetabs.com/v1/proxy/?quest=https://restcountries.herokuapp.com/api/v1`;
-	return fetchURL(url1);
+	return fetchURL(url);
 }
 function getCovidByCountry() {
 	const url = `https://corona-api.com/countries`;
@@ -187,7 +187,6 @@ async function draw(region) {
 						'rgba(255, 159, 64, 1)',
 					],
 					borderWidth: 1,
-
 					pointBorderColor: (() => {
 						let bgcolors = [];
 						for (let i = 0; i < 1000; ++i)
@@ -235,7 +234,6 @@ async function draw(region) {
 // ----------------updating graph----------------
 async function UpdateChartData(chart, selected, e) {
 	// get the data by region
-	// ctx.style.display = 'block';
 	let data = obj;
 	if (e.target.classList.contains('btn-regions')) {
 		data = await getData(selected).catch((err) => {
