@@ -2,7 +2,6 @@ const baseEndPoint = `https://corona-api.com/countries`;
 
 const countriesContainer = document.querySelector('.countries');
 const countriesArr = [];
-let covidArr = [];
 let obj = {};
 let ctx;
 let filtered;
@@ -12,8 +11,9 @@ async function fetchURL(url) {
 	return response.json();
 }
 function getAllCountries() {
+	// const url1 = `https://cors-anywere-pini85.herokuapp.com/restcountries.herokuapp.com/api/v1/`;
 	const url = `https://api.codetabs.com/v1/proxy/?quest=https://restcountries.herokuapp.com/api/v1`;
-	return fetchURL(url);
+	return fetchURL(url1);
 }
 function getCovidByCountry() {
 	const url = `https://corona-api.com/countries`;
@@ -235,7 +235,7 @@ async function draw(region) {
 // ----------------updating graph----------------
 async function UpdateChartData(chart, selected, e) {
 	// get the data by region
-	ctx.style.display = 'block';
+	// ctx.style.display = 'block';
 	let data = obj;
 	if (e.target.classList.contains('btn-regions')) {
 		data = await getData(selected).catch((err) => {
