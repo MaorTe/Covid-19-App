@@ -47,7 +47,7 @@ body {
 	align-items: flex-start;
 	flex-wrap: wrap;
 	/* width: 75vw; */
-	border: 1px solid #fff;
+	/* border: 1px solid #fff; */
 }
 .card {
 	height: 10vw;

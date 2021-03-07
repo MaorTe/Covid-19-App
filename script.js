@@ -5,6 +5,8 @@ const countriesArr = [];
 let covidArr = [];
 let obj = {};
 let ctx;
+let filtered;
+
 async function fetchURL(url) {
 	const response = await fetch(url);
 	return response.json();
@@ -17,24 +19,9 @@ function getCovidByCountry() {
 	const url = `https://corona-api.com/countries`;
 	return fetchURL(url);
 }
-const displayDataCountry = () => {
-	console.log(countriesArr);
-};
-const displayDataCovid = () => {
-	console.log(covidArr);
-};
 
 //initializer
 draw('Asia');
-
-function ButtonRegionSelected(e) {
-	let regionSelected = e.target.textContent;
-	UpdateChartData(myChart, regionSelected, e);
-}
-function ButtonCasesSelected(e) {
-	let caseSelected = e.target.textContent;
-	UpdateChartData(myChart, caseSelected, e);
-}
 
 function setCountriesToDOM(countriesArr) {
 	countriesContainer.innerHTML = '';
@@ -61,16 +48,12 @@ async function getData(regionFromListener) {
 			countriesByCode.push(country.cca2);
 		}
 	});
-	console.log(countriesArr);
-
-	//set countries text to DOM
-	setCountriesToDOM(countriesArr);
 
 	//filter countries
-	let filtered = covids.data.filter((cov) =>
-		countriesByCode.includes(cov.code)
-	);
-	console.log(filtered);
+	filtered = covids.data.filter((cov) => countriesByCode.includes(cov.code));
+
+	//set countries text to DOM
+	setCountriesToDOM(countriesArr, filtered);
 
 	//if world selected get all countries
 	if (regionFromListener === 'World') {
@@ -88,7 +71,6 @@ async function getData(regionFromListener) {
 			critical: country.latest_data.critical,
 		};
 	});
-	console.log(obj);
 	return obj;
 }
 // ----------------set listeners to buttons----------------
@@ -99,38 +81,65 @@ regionContainer.forEach((el) => {
 	el.addEventListener('click', ButtonRegionSelected);
 });
 
+function ButtonRegionSelected(e) {
+	let regionSelected = e.target.textContent;
+	UpdateChartData(myChart, regionSelected, e);
+}
+// ---
 const casesContainer = document.querySelectorAll('.container-cases button');
 casesContainer.forEach((el) => {
 	el.addEventListener('click', ButtonCasesSelected);
 });
 
-// selecting a country name text
+function ButtonCasesSelected(e) {
+	let caseSelected = e.target.textContent;
+	UpdateChartData(myChart, caseSelected, e);
+}
+
+// --- selecting a country name text
 function setSpanListener() {
 	const countriesContainerSpan = document.querySelectorAll('.countries span');
 	countriesContainerSpan.forEach((el) => {
 		el.addEventListener('click', ShowCountryCovidStats);
 	});
 }
-function ShowCountryCovidStats() {
+function ShowCountryCovidStats(e) {
 	ctx.style.display = 'none';
-	// ctx.classList.add(details);
 
+	//find selected country from countries
+	let countryName = e.target.textContent;
+	let found = filtered.find((data) => {
+		return data.name === countryName;
+	});
+	//set found country necessary details into an arr of objects
+	let arr = [
+		{ 'Total cases': found.latest_data.confirmed },
+		{ 'New cases': found.today.confirmed },
+		{ 'Total deaths': found.latest_data.deaths },
+		{ 'New deaths': found.today.deaths },
+		{ 'Total recovered': found.latest_data.recovered },
+		{ Critical: found.latest_data.critical },
+	];
+
+	//create elements on the DOM and set details
 	let canvasContainer = document.querySelector('.canvas-container');
+	canvasContainer.innerHTML = '';
 	for (let i = 0; i < 6; i++) {
-		const name = document.createElement('p');
-		const publicRepos = document.createElement('p');
+		const title = document.createElement('h2');
+		const value = document.createElement('h2');
 		const card = document.createElement('div');
 
-		name.textContent = 'user.name';
-		publicRepos.textContent = 'user.public_repos';
+		title.textContent = Object.keys(arr[i])[0];
+		value.textContent = Object.values(arr[i])[0];
 
-		card.appendChild(name);
-		card.appendChild(publicRepos);
+		card.appendChild(title);
+		card.appendChild(value);
 		card.classList.add('space');
 		card.classList.add('card');
 		canvasContainer.appendChild(card);
 	}
 }
+
 // ----------------graph----------------
 let myChart;
 async function draw(region) {
@@ -214,6 +223,7 @@ async function draw(region) {
 // ----------------updating graph----------------
 async function UpdateChartData(chart, selected, e) {
 	// get the data by region
+	ctx.style.display = 'block';
 	let data = obj;
 	if (e.target.classList.contains('btn-regions')) {
 		data = await getData(selected).catch((err) => {
