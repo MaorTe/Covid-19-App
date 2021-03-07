@@ -48,7 +48,7 @@ body {
 	align-items: center;
 	flex-wrap: wrap;
 	max-width: 95vw;
-	height: calc(80%-400px);
+	height: calc(100vh - 400px);
 }
 .canvas-container .card {
 	text-align: center;
