@@ -1,3 +1,8 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
 html,
 body {
 	background: #4c566a;
@@ -68,4 +73,14 @@ body {
 .btn-cases:hover,
 .btn-regions:hover {
 	background: #cdd4e0;
+}
+
+@media all and (max-width: 520px) {
+	.card h2,
+	.card h3 {
+		font-size: 20px;
+	}
+	.card {
+		height: 10vh;
+	}
 }
